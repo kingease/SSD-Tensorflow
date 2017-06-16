@@ -22,3 +22,6 @@ nohup.out
 ssd-tensorflow.sublime-workspace
 ssd-tensorflow.sublime-project
 
+*.pyc
+.DS_Store
+**/*/.DS_Store
