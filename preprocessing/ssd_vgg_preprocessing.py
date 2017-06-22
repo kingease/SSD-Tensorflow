@@ -209,6 +209,7 @@ def distorted_bounding_box_crop(image,
     with tf.name_scope(scope, 'distorted_bounding_box_crop', [image, bboxes]):
         # Each bounding box has shape [1, num_boxes, box coords] and
         # the coordinates are ordered [ymin, xmin, ymax, xmax].
+        bboxes = tf.clip_by_value(bboxes, 0.0, 1.0)
         bbox_begin, bbox_size, distort_bbox = tf.image.sample_distorted_bounding_box(
                 tf.shape(image),
                 bounding_boxes=tf.expand_dims(bboxes, 0),

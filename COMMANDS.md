@@ -21,6 +21,25 @@ python caffe_to_tensorflow.py \
 # =========================================================================== #
 # VGG-based SSD network
 # =========================================================================== #
+
+DATASET_DIR=/home/mobile/data/synthtext/
+TRAIN_DIR=./logs/ssd_512_vgg_syntext
+python train_ssd_network.py \
+    --train_dir=${TRAIN_DIR} \
+    --dataset_dir=${DATASET_DIR} \
+    --dataset_name=synthtext \
+    --dataset_split_name=train \
+    --model_name=ssd_512_vgg \
+    --num_classes=1 \
+    --save_summaries_secs=60 \
+    --save_interval_secs=600 \
+    --weight_decay=0.0005 \
+    --optimizer=adam \
+    --learning_rate=0.001 \
+    --learning_rate_decay_factor=0.95 \
+    --batch_size=32
+    
+
 DATASET_DIR=/media/paul/DataExt4/PascalVOC/dataset
 TRAIN_DIR=./logs/ssd_300_vgg_3
 CHECKPOINT_PATH=./checkpoints/ssd_300_vgg.ckpt
