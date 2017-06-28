@@ -24,7 +24,7 @@ import tf_utils
 
 slim = tf.contrib.slim
 
-DATA_FORMAT = 'NHWC'
+DATA_FORMAT = 'NCHW'
 
 # =========================================================================== #
 # SSD Network flags.
