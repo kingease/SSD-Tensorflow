@@ -6,6 +6,7 @@ import numpy as np
 import os
 import pickle
 from tqdm import tqdm
+import sys
 
 
 from datasets.dataset_utils import int64_feature, float_feature, bytes_feature
@@ -154,25 +155,35 @@ def run(dataset_dir, output_dir, split_ratio=0.9, shuffling=False):
     # Process dataset files for trains
     print('convert data for train.')
 
-    fidx = 0
-    for i, idx in enumerate(tqdm(idxs_for_train)):
-        if i % SAMPLES_PER_FILES == 0:
-            tf_filename = _get_output_filename(output_dir, 'train', fidx)
-            fidx += 1
-            
+    i, fidx = 0, 0
+    while i < len(idxs_for_train):
+        tf_filename = _get_output_filename(output_dir, 'train', fidx)
         with tf.python_io.TFRecordWriter(tf_filename) as tfrecord_writer:
-            _add_to_tfrecord(dataset_dir, idx, tfrecord_writer)
+            j = 0
+            while i < len(idxs_for_train) and j < SAMPLES_PER_FILES:
+                sys.stdout.write('\r>> Converting image %d/%d' % (i+1, len(idxs_for_train)))
+                sys.stdout.flush()
+                _add_to_tfrecord(dataset_dir, idxs_for_train[i], tfrecord_writer)
+                i +=1
+                j +=1
+        
+        fidx += 1
     
     # Process dataset files for test
     print('convert data for test.')
 
-    fidx = 0
-    for i, idx in enumerate(tqdm(idxs_for_test)):
-        if i % SAMPLES_PER_FILES == 0:
-            tf_filename = _get_output_filename(output_dir, 'test', fidx)
-            fidx += 1
-            
+    i, fidx = 0, 0
+    while i < len(idxs_for_test):
+        tf_filename = _get_output_filename(output_dir, 'test', fidx)
         with tf.python_io.TFRecordWriter(tf_filename) as tfrecord_writer:
-            _add_to_tfrecord(dataset_dir, idx, tfrecord_writer)
+            j = 0
+            while i < len(idxs_for_test) and j < SAMPLES_PER_FILES:
+                sys.stdout.write('\r>> Converting image %d/%d' % (i+1, len(idxs_for_test)))
+                sys.stdout.flush()
+                _add_to_tfrecord(dataset_dir, idxs_for_test[i], tfrecord_writer)
+                i +=1
+                j +=1
+        
+        fidx += 1
     
     print('\nFinished converting the SynthText dataset!')
