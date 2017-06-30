@@ -105,9 +105,9 @@ python eval_ssd_network.py \
 # =========================================================================== #
 # Fine tune VGG-based SSD network
 # =========================================================================== #
-DATASET_DIR=/Users/yangli/mnt/data/synthtext
+DATASET_DIR=/home/ubuntu/mnt/data/synthtext
 TRAIN_DIR=./logs/ssd_512_vgg_based
-CHECKPOINT_PATH=./checkpoints/vgg/vgg_16.ckpt
+CHECKPOINT_PATH=./checkpoints/vgg_16.ckpt
 python train_ssd_network.py \
     --train_dir=${TRAIN_DIR} \
     --dataset_dir=${DATASET_DIR} \
@@ -125,7 +125,7 @@ python train_ssd_network.py \
     --optimizer=adam \
     --learning_rate=0.001 \
     --learning_rate_decay_factor=0.94 \
-    --batch_size=32
+    --batch_size=16
 
 ### floyd
 floyd run --gpu --env tensorflow:py2 --data Ru5nHXDkZfwrK5haLTB52N:synthtext --data aQxhBiB6k29M5C9FW4NZiM:checkpoints "python floydtrain.py"
