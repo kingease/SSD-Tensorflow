@@ -22,22 +22,25 @@ python caffe_to_tensorflow.py \
 # VGG-based SSD network
 # =========================================================================== #
 
-DATASET_DIR=/home/mobile/data/synthtext/
-TRAIN_DIR=./logs/ssd_512_vgg_syntext
-python train_ssd_network.py \
+DATASET_DIR=/home/ubuntu/mnt/data/synthtext
+TRAIN_DIR=./logs/ssd_512_vgg_based_on_trained
+CHECKPOINT_PATH=./checkpoints/model.ckpt-7257
+(python train_ssd_network.py \
     --train_dir=${TRAIN_DIR} \
     --dataset_dir=${DATASET_DIR} \
+    --checkpoint_path=${CHECKPOINT_PATH} \
     --dataset_name=synthtext \
     --dataset_split_name=train \
     --model_name=ssd_512_vgg \
+    --trainable_scopes=ssd_512_vgg/conv6,ssd_512_vgg/conv7,ssd_512_vgg/block8,ssd_512_vgg/block9,ssd_512_vgg/block10,ssd_512_vgg/block11,ssd_512_vgg/block12,ssd_512_vgg/block4_box,ssd_512_vgg/block7_box,ssd_512_vgg/block8_box,ssd_512_vgg/block9_box,ssd_512_vgg/block10_box,ssd_512_vgg/block11_box,ssd_512_vgg/block12_box \
     --num_classes=1 \
     --save_summaries_secs=60 \
     --save_interval_secs=600 \
     --weight_decay=0.0005 \
     --optimizer=adam \
-    --learning_rate=0.001 \
+    --learning_rate=1 \
     --learning_rate_decay_factor=0.95 \
-    --batch_size=32
+    --batch_size=16 &)
     
 
 DATASET_DIR=/media/paul/DataExt4/PascalVOC/dataset
@@ -108,7 +111,7 @@ python eval_ssd_network.py \
 DATASET_DIR=/home/ubuntu/mnt/data/synthtext
 TRAIN_DIR=./logs/ssd_512_vgg_based
 CHECKPOINT_PATH=./checkpoints/vgg_16.ckpt
-python train_ssd_network.py \
+(python train_ssd_network.py \
     --train_dir=${TRAIN_DIR} \
     --dataset_dir=${DATASET_DIR} \
     --num_classes=1 \
@@ -123,9 +126,9 @@ python train_ssd_network.py \
     --save_interval_secs=600 \
     --weight_decay=0.0005 \
     --optimizer=adam \
-    --learning_rate=0.001 \
+    --learning_rate=0.1 \
     --learning_rate_decay_factor=0.94 \
-    --batch_size=16
+    --batch_size=16 &)
 
 ### floyd
 floyd run --gpu --env tensorflow:py2 --data Ru5nHXDkZfwrK5haLTB52N:synthtext --data aQxhBiB6k29M5C9FW4NZiM:checkpoints "python floydtrain.py"
