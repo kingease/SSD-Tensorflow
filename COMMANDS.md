@@ -114,7 +114,7 @@ CHECKPOINT_PATH=./checkpoints/vgg_16.ckpt
 (python train_ssd_network.py \
     --train_dir=${TRAIN_DIR} \
     --dataset_dir=${DATASET_DIR} \
-    --num_classes=1 \
+    --num_classes=2 \
     --dataset_name=synthtext \
     --dataset_split_name=train \
     --model_name=ssd_512_vgg \
@@ -126,7 +126,7 @@ CHECKPOINT_PATH=./checkpoints/vgg_16.ckpt
     --save_interval_secs=600 \
     --weight_decay=0.0005 \
     --optimizer=adam \
-    --learning_rate=0.1 \
+    --learning_rate=0.001 \
     --learning_rate_decay_factor=0.94 \
     --batch_size=16 &)
 
